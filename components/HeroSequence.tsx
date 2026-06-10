@@ -3,9 +3,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 import type { SiteContent } from "@/lib/content";
 
-const FRAMES = 211;
-const framePath = (i: number) => `/sequence/ezgif-frame-${String(i).padStart(3, "0")}.png`;
-
 export default function HeroSequence({
   hero,
   onProgress,
@@ -18,6 +15,7 @@ export default function HeroSequence({
   const box = useRef<HTMLDivElement>(null);
   const cvs = useRef<HTMLCanvasElement>(null);
   const imgs = useRef<HTMLImageElement[]>([]);
+  const frames = useRef<string[]>([]); // auto-detected frame URLs (no count limit)
   const fr = useRef(0);
   const raf = useRef<number | null>(null);
   const [ready, setReady] = useState(false);
@@ -32,23 +30,26 @@ export default function HeroSequence({
   const statsY = useTransform(scrollYProgress, [0.34, 0.46], [40, 0]);
 
   useEffect(() => {
-    const arr: HTMLImageElement[] = [];
-    let n = 0;
-    for (let i = 1; i <= FRAMES; i++) {
-      const img = new Image();
-      img.src = framePath(i);
-      img.onload = img.onerror = () => {
-        n++;
-        onProgress((n / FRAMES) * 100);
-        if (n === FRAMES) {
-          imgs.current = arr;
-          setReady(true);
-          onDone();
-          draw(0);
-        }
-      };
-      arr.push(img);
-    }
+    let alive = true;
+    fetch("/sequences.json").then((r) => (r.ok ? r.json() : {})).then((man: any) => {
+      if (!alive) return;
+      const list: string[] = (man && man["sequence"]) || [];
+      frames.current = list;
+      if (!list.length) { onProgress(100); onDone(); return; }
+      const arr: HTMLImageElement[] = new Array(list.length);
+      let n = 0;
+      list.forEach((src, i) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = img.onerror = () => {
+          n++;
+          onProgress((n / list.length) * 100);
+          if (n === list.length) { imgs.current = arr; setReady(true); onDone(); draw(0); }
+        };
+        arr[i] = img;
+      });
+    }).catch(() => { onProgress(100); onDone(); });
+    return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -82,7 +83,8 @@ export default function HeroSequence({
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     if (!ready) return;
-    const fi = Math.min(FRAMES - 1, Math.floor(v * FRAMES));
+    const N = frames.current.length; if (!N) return;
+    const fi = Math.min(N - 1, Math.floor(v * N));
     if (fi !== fr.current) {
       fr.current = fi;
       if (raf.current) cancelAnimationFrame(raf.current);
