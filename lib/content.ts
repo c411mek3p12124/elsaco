@@ -34,8 +34,15 @@ export const defaultTheme: ThemeColors = {
   bgDark: "#0f1419",
 };
 
+export interface LogoData {
+  mode: "image" | "text" | "none";
+  image: string;
+  text: string;
+  size?: number; // px (image height, or text font-size)
+}
+
 export interface SiteContent {
-  brand: { name: string; tagline: string };
+  brand: { name: string; tagline: string; logo?: LogoData };
   hero: {
     eyebrow: string;
     headline: string;
@@ -123,12 +130,14 @@ export interface SiteContent {
   // Editor visual layer (optional → backward compatible)
   styles?: Record<string, ElementStyle>;
   theme?: ThemeColors;
+  buttonStyle?: { radius: number; size: "sm" | "md" | "lg" };
 }
 
 export const defaultContent: SiteContent = {
   brand: {
     name: "Elsa & Co",
     tagline: "I do the small things well, so you can do the big things great.",
+    logo: { mode: "text", image: "", text: "Elsa & Co", size: 18 },
   },
   hero: {
     eyebrow: "Bali-based Virtual Assistant",
@@ -423,4 +432,5 @@ export const defaultContent: SiteContent = {
   },
   styles: {},
   theme: defaultTheme,
+  buttonStyle: { radius: 999, size: "md" },
 };

@@ -1,16 +1,20 @@
 "use client";
 import { motion, AnimatePresence } from "motion/react";
+import { BrandLogo } from "./editable/BrandLogo";
+import type { LogoData } from "@/lib/content";
 
 export default function Preloader({
   progress,
   isComplete,
   brand,
   tagline,
+  logo,
 }: {
   progress: number;
   isComplete: boolean;
   brand: string;
   tagline: string;
+  logo?: LogoData;
 }) {
   return (
     <AnimatePresence>
@@ -27,12 +31,9 @@ export default function Preloader({
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-center"
             >
-              <h1
-                className="font-heading font-extrabold text-3xl tracking-tight mb-3"
-                style={{ color: "var(--text)" }}
-              >
-                {brand}
-              </h1>
+              <div className="mb-3 flex items-center justify-center">
+                <BrandLogo logo={logo ? { ...logo, size: logo.mode === "image" ? (logo.size || 40) : 30 } : undefined} fallback={brand} />
+              </div>
               <p
                 className="text-[10px] font-medium tracking-[0.3em] uppercase max-w-[260px]"
                 style={{ color: "var(--text-muted)" }}

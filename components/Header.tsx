@@ -2,14 +2,17 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { useTheme } from "./ThemeProvider";
+import { BrandLogo } from "./editable/BrandLogo";
+import type { LogoData } from "@/lib/content";
 
 interface HeaderProps {
   brand: string;
+  logo?: LogoData;
   onMenuToggle: () => void;
   isMenuOpen: boolean;
 }
 
-export default function Header({ brand, onMenuToggle, isMenuOpen }: HeaderProps) {
+export default function Header({ brand, logo, onMenuToggle, isMenuOpen }: HeaderProps) {
   const { theme, toggle } = useTheme();
   const [scrolled, setScrolled] = useState(false);
 
@@ -29,12 +32,7 @@ export default function Header({ brand, onMenuToggle, isMenuOpen }: HeaderProps)
       transition={{ duration: 0.6, delay: 0.2 }}
     >
       <a href="#home" className="flex items-center gap-3">
-        <span
-          className="font-heading font-bold text-base tracking-tight"
-          style={{ color: "var(--text)" }}
-        >
-          {brand}
-        </span>
+        <BrandLogo logo={logo} fallback={brand} className="tracking-tight" />
       </a>
 
       <div className="flex items-center gap-2">

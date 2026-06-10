@@ -20,6 +20,9 @@ export default function AdminPage() {
   const [device, setDevice] = useState<null | "desktop" | "tablet" | "mobile">(null);
   const [gh, setGh] = useState({ token: "", repo: "c411mek3p12124/elsaco", branch: "main" });
   const [showGh, setShowGh] = useState(false);
+  const [admTheme, setAdmTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => { document.documentElement.setAttribute("data-theme", admTheme); }, [admTheme]);
 
   useEffect(() => {
     try {
@@ -78,6 +81,9 @@ export default function AdminPage() {
   }, []);
   const setThemeColor = useCallback((key: keyof ThemeColors, v: string) => {
     setContent((prev) => prev ? { ...prev, theme: { ...(prev.theme ?? defaultTheme), [key]: v } } : prev);
+  }, []);
+  const setButton = useCallback((b: { radius: number; size: "sm" | "md" | "lg" }) => {
+    setContent((prev) => prev ? { ...prev, buttonStyle: b } : prev);
   }, []);
 
   const upload = useCallback(
@@ -171,9 +177,9 @@ export default function AdminPage() {
     <div>
       <ToolbarStyles />
       <FormatBarStyles />
-      <ThemeApplier theme={content.theme} />
+      <ThemeApplier theme={content.theme} button={content.buttonStyle ?? { radius: 999, size: "md" }} />
       {editing && <FormatBar />}
-      {showTheme && <ThemePanel theme={content.theme ?? defaultTheme} onChange={setThemeColor} onClose={() => setShowTheme(false)} />}
+      {showTheme && <ThemePanel theme={content.theme ?? defaultTheme} button={content.buttonStyle ?? { radius: 999, size: "md" }} onChange={setThemeColor} onButton={setButton} onClose={() => setShowTheme(false)} />}
       {device && <DevicePreview content={content} initial={device} onClose={() => setDevice(null)} />}
       {showGh && (
         <div className="thm-overlay" onClick={() => setShowGh(false)}>
@@ -213,6 +219,13 @@ export default function AdminPage() {
 
         <span className="op-sep" />
 
+        <button className="icon-btn op-ic" title={admTheme === "dark" ? "Mode terang" : "Mode gelap"} onClick={() => setAdmTheme(admTheme === "dark" ? "light" : "dark")}>
+          {admTheme === "dark" ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+          )}
+        </button>
         <button className="icon-btn op-ic" title="Warna & tema" onClick={() => setShowTheme(true)}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125 0-.926.746-1.688 1.688-1.688H16c3.314 0 6-2.686 6-6 0-4.97-4.5-8.5-10-8.5z" /></svg>
         </button>
@@ -297,6 +310,13 @@ function FormatBarStyles() {
       .gh-input{width:100%;padding:10px 12px;border-radius:9px;background:var(--input-bg);border:1px solid var(--border);color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)}
       .gh-input:focus{border-color:var(--primary)}
       .gh-hint{font-size:11.5px;color:var(--text-muted);line-height:1.5;margin-top:2px}
+      .thm-btn-block{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+      .thm-block-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+      .thm-btn-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:13px;color:var(--text-secondary)}
+      .thm-btn-row>span:first-child{min-width:54px}
+      .thm-btn-row input[type=range]{flex:1}
+      .thm-mini{padding:5px 11px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-heading)}
+      .thm-mini.on{background:var(--primary);color:#fff;border-color:transparent}
     `}</style>
   );
 }

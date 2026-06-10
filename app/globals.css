@@ -205,8 +205,8 @@ h1, h2, h3, h4, .font-heading {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 14px 32px;
-  border-radius: 999px;
+  padding: var(--btn-pad, 14px 32px);
+  border-radius: var(--btn-radius, 999px);
   background: var(--primary);
   color: #fff;
   font-family: var(--font-heading);
@@ -227,8 +227,8 @@ h1, h2, h3, h4, .font-heading {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 14px 32px;
-  border-radius: 999px;
+  padding: var(--btn-pad, 14px 32px);
+  border-radius: var(--btn-radius, 999px);
   background: transparent;
   border: 1.5px solid var(--primary);
   color: var(--primary);
@@ -248,8 +248,8 @@ h1, h2, h3, h4, .font-heading {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 14px 32px;
-  border-radius: 999px;
+  padding: var(--btn-pad, 14px 32px);
+  border-radius: var(--btn-radius, 999px);
   background: var(--whatsapp);
   color: #fff;
   font-family: var(--font-heading);
@@ -375,37 +375,46 @@ h1, h2, h3, h4, .font-heading {
 }
 
 /* ═══ INLINE EDITOR (admin only) ═══ */
+/* Clean by default — the dashed edit box + pencil appear only on hover/focus. */
 .ed-editable {
   position: relative;
-  outline: 1.5px dashed rgba(var(--primary-rgb), 0.5);
+  outline: 1px dashed transparent;
   outline-offset: 3px;
   border-radius: 4px;
   cursor: text;
   transition: background 0.2s, outline-color 0.2s;
 }
 .ed-editable:hover {
-  background: rgba(var(--primary-rgb), 0.08);
-  outline-color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.06);
+  outline-color: rgba(var(--primary-rgb), 0.55);
 }
 .ed-editable:focus {
   background: rgba(var(--primary-rgb), 0.1);
-  outline: 2px solid var(--primary);
+  outline: 1.5px solid var(--primary);
 }
 .ed-editable::after {
-  content: "✏";
+  content: "✎";
   position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 18px;
-  height: 18px;
-  font-size: 10px;
-  line-height: 18px;
+  top: -9px;
+  right: -9px;
+  width: 17px;
+  height: 17px;
+  font-size: 9px;
+  line-height: 17px;
   text-align: center;
   background: var(--primary);
   color: #fff;
   border-radius: 50%;
   pointer-events: none;
   z-index: 2;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.18s, transform 0.18s;
+}
+.ed-editable:hover::after,
+.ed-editable:focus::after {
+  opacity: 1;
+  transform: scale(1);
 }
 .ed-editable:empty::before {
   content: "(kosong — klik untuk isi)";
@@ -497,3 +506,21 @@ h1, h2, h3, h4, .font-heading {
 .ed-item {
   position: relative;
 }
+
+/* ═══ LOGO EDITOR (admin) ═══ */
+.logo-editor { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.logo-preview { min-height: 40px; display: flex; align-items: center; justify-content: center; }
+.logo-tools { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.logo-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 9px; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border); color: var(--text-secondary);
+  font-family: var(--font-heading); font-size: 12px; font-weight: 600; transition: all 0.2s;
+}
+.logo-btn:hover { color: var(--text); border-color: var(--border-hover); }
+.logo-btn.on { background: var(--primary); color: #fff; border-color: transparent; }
+.logo-input {
+  padding: 7px 11px; border-radius: 9px; background: var(--input-bg); border: 1px solid var(--border);
+  color: var(--text); font-size: 13px; outline: none; font-family: var(--font-body); min-width: 160px;
+}
+.logo-input:focus { border-color: var(--primary); }
+.logo-size { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); font-family: var(--font-heading); }

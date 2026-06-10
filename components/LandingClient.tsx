@@ -26,18 +26,20 @@ export default function LandingClient({ content }: { content: SiteContent }) {
 
   return (
     <ThemeProvider>
-      <ThemeApplier theme={content.theme} />
+      <ThemeApplier theme={content.theme} button={content.buttonStyle} />
       <EditProvider value={roCtx}>
       <Preloader
         progress={progress}
         isComplete={loaded}
         brand={content.brand.name}
         tagline={content.brand.tagline}
+        logo={content.brand.logo}
       />
 
       <SmoothScroll>
         <Header
           brand={content.brand.name}
+          logo={content.brand.logo}
           onMenuToggle={() => setMenuOpen((o) => !o)}
           isMenuOpen={menuOpen}
         />
