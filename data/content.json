@@ -1,0 +1,327 @@
+{
+  "brand": {
+    "name": "Elsa & Co",
+    "tagline": "I do the small things well, so you can do the big things great."
+  },
+  "hero": {
+    "eyebrow": "Bali-based Virtual Assistant",
+    "headline": "The small tasks that steal your day — I've got those.",
+    "subheadline": "I help busy entrepreneurs and villa owners in Bali move faster on what matters most. You've got big things to focus on. I take care of the small tasks that keep getting in the way — quickly, reliably, and without any fuss. No long contracts, no complicated setup. Just tell me what's slowing you down, and I'll handle it.",
+    "stats": [
+      {
+        "value": "8+",
+        "label": "Years supporting Bali businesses & villas"
+      },
+      {
+        "value": "100%",
+        "label": "Client retention — no one leaves"
+      },
+      {
+        "value": "Same-day",
+        "label": "Every message gets a same-day reply during working hours, 10am – 5pm WIB, Mon–Fri."
+      }
+    ],
+    "ctaPrimaryText": "Let's talk — WhatsApp me",
+    "ctaPrimaryHref": "https://wa.me/6285128014783",
+    "ctaSecondaryText": "See what I can do →",
+    "ctaSecondaryHref": "#services"
+  },
+  "about": {
+    "eyebrow": "About / Credibility",
+    "heading": "Hi, I'm Elsa.",
+    "paragraphs": [
+      "Hi, I'm Elsa — a Bali-based virtual assistant with over 8 years of experience helping entrepreneurs and villa owners get their time back.",
+      "I specialise in the small tasks that quietly steal hours from your day — answering guest messages, managing inboxes, following up on bookings, coordinating schedules, handling the admin. Not the big strategy work — the operational detail that needs to get done so you can stay focused on growing.",
+      "What sets me apart is simple: I'm reliable, fast, and I understand Bali business. You hand me a task, it gets done — so your attention stays where it belongs."
+    ],
+    "image": {
+      "type": "image",
+      "url": "/uploads/about-placeholder.svg"
+    },
+    "credibility": [
+      "8+ years across admin, customer service & property management in Bali",
+      "Fluent English communicator — experienced with international guests and global clients daily",
+      "Currently helping clients reclaim hours every week — with zero missed tasks",
+      "10+ villas and properties managed online",
+      "Based in Bali — I understand your market, your guests, and your time zone"
+    ]
+  },
+  "skills": {
+    "eyebrow": "Skills & Competencies",
+    "heading": "The small tasks I take off your plate",
+    "coreSkills": [
+      "Communication & Client Relations",
+      "Customer Service Management",
+      "Data Entry & Payroll Processing",
+      "Bookkeeping & Payment Processing",
+      "Lease & Document Preparation",
+      "Organisation & Time Management",
+      "Canva & AI Tools",
+      "Remote Property & Booking Management",
+      "Google Spreadsheets",
+      "Copywriting & Content Creation",
+      "Proactive & Self-motivated"
+    ],
+    "groups": [
+      {
+        "title": "Villa & Guest Communication",
+        "items": [
+          "Guest inquiries & booking follow-ups",
+          "Check-in / check-out coordination",
+          "Review responses (Airbnb, Booking.com, Google)",
+          "Complaint handling & resolution",
+          "OTA platform management"
+        ]
+      },
+      {
+        "title": "Business Admin & Operations",
+        "items": [
+          "Email inbox management & filtering",
+          "Calendar & appointment scheduling",
+          "Document preparation & formatting",
+          "Data entry & spreadsheet management",
+          "Vendor & supplier coordination"
+        ]
+      },
+      {
+        "title": "Customer Support",
+        "items": [
+          "WhatsApp / email customer service",
+          "Follow-up sequences & check-ins",
+          "Complaint triage & escalation",
+          "FAQ & template response library",
+          "Multi-channel response management"
+        ]
+      },
+      {
+        "title": "Project Support",
+        "items": [
+          "Research & information gathering",
+          "Bookkeeping & payment processing",
+          "Data entry & payroll support",
+          "Lease & document preparation",
+          "Copywriting & content creation"
+        ]
+      }
+    ],
+    "note": "Not sure if your task fits? Just describe what's taking up your time — I'll tell you honestly if it's something I can handle."
+  },
+  "services": {
+    "eyebrow": "Services",
+    "heading": "How I work alongside you",
+    "intro": "A quick look at how I slot into your day and take the busywork off your plate.",
+    "video": {
+      "type": "video",
+      "url": ""
+    },
+    "categories": [
+      {
+        "title": "Villa & Guest Communication",
+        "items": [
+          "Guest inquiries & booking follow-ups",
+          "Check-in / check-out coordination",
+          "Review responses across platforms",
+          "Complaint handling & resolution"
+        ]
+      },
+      {
+        "title": "Business Admin & Operations",
+        "items": [
+          "Email inbox management & filtering",
+          "Calendar & appointment scheduling",
+          "Document preparation & formatting",
+          "Vendor & supplier coordination"
+        ]
+      },
+      {
+        "title": "Customer Support",
+        "items": [
+          "WhatsApp / email customer service",
+          "Follow-up sequences & check-ins",
+          "FAQ & template response library",
+          "Multi-channel response management"
+        ]
+      }
+    ]
+  },
+  "why": {
+    "eyebrow": "Why Elsa & Co",
+    "heading": "Why hand small tasks to Elsa?",
+    "colElsa": "Elsa & Co",
+    "colHire": "Full-time hire (Bali)",
+    "rows": [
+      {
+        "label": "Rate",
+        "elsa": "Start from IDR 2.8M / retainer",
+        "hire": "IDR 4–8M salary + benefits"
+      },
+      {
+        "label": "Onboarding time",
+        "elsa": "Start this week",
+        "hire": "2–4 weeks minimum"
+      },
+      {
+        "label": "English fluency",
+        "elsa": "Fluent, proven",
+        "hire": "Varies"
+      },
+      {
+        "label": "Commitment",
+        "elsa": "Flexible — pause anytime",
+        "hire": "Fixed contract"
+      },
+      {
+        "label": "Tools & equipment",
+        "elsa": "Fully self-equipped",
+        "hire": "You provide everything"
+      },
+      {
+        "label": "VA experience",
+        "elsa": "8+ years, Bali market",
+        "hire": "Often needs training"
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Testimonials",
+    "heading": "What clients say",
+    "items": [
+      {
+        "quote": "Elsa handles our guest messages and booking follow-ups. Tasks that used to interrupt my whole day just... disappear. Our response times improved and I finally have headspace for the things only I can do.",
+        "author": "Client First Name, Owner of Villa Name, Seminyak"
+      },
+      {
+        "quote": "I kept putting off the small admin tasks because I wanted to focus on growing. They piled up. Elsa cleared the backlog in two days and now keeps it clean every week. Game changer.",
+        "author": "Client First Name, Business Type, Canggu"
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Process",
+    "heading": "How we start working together",
+    "steps": [
+      {
+        "no": "01",
+        "title": "We have a quick chat",
+        "body": "Send me a WhatsApp or email. Tell me which tasks are eating your week — I'll get back to you as soon as possible."
+      },
+      {
+        "no": "02",
+        "title": "You walk me through your world",
+        "body": "You share your systems, give me the access I need, and explain how you like things done. Your workflow stays exactly as it is — I slot in and follow your lead. The clearer your brief, the faster I can start delivering."
+      },
+      {
+        "no": "03",
+        "title": "We start — this week",
+        "body": "No lengthy onboarding. Once you've shared what I need, I get to work. Most clients notice the difference within the first few days."
+      }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Pricing",
+    "heading": "Simple, flexible pricing",
+    "note": "Available hours: 10am – 5pm, Monday to Friday (Bali time, WIB). You decide what the hours are used for (24-hour notice for new tasks). Task summary included so you always know what was done. Choose a package and use it across your tasks within 30 days from purchase date.",
+    "packages": [
+      {
+        "name": "Light",
+        "price": "2,800,000 IDR",
+        "unit": "Up to 10 hrs",
+        "features": [
+          "Regular task summary",
+          "Real-time Toggl hour tracking",
+          "Payment via bank transfer (IDR)"
+        ],
+        "perfect": "Perfect for: a handful of recurring tasks each week",
+        "popular": false
+      },
+      {
+        "name": "Regular",
+        "price": "5,000,000 IDR",
+        "unit": "Up to 20 hrs",
+        "features": [
+          "Bi-weekly check-in & summary",
+          "Real-time Toggl hour tracking",
+          "Payment via bank transfer (IDR)"
+        ],
+        "perfect": "Perfect for: a steady weekly flow of small tasks",
+        "popular": true
+      },
+      {
+        "name": "Dedicated",
+        "price": "8,500,000 IDR",
+        "unit": "Up to 40 hrs / month",
+        "features": [
+          "Weekly check-in",
+          "Real-time Toggl hour tracking",
+          "Payment via bank transfer (IDR)"
+        ],
+        "perfect": "Perfect for: clients who want a reliable, ongoing right hand",
+        "popular": false
+      }
+    ],
+    "specialist": {
+      "badge": "Specialist Service",
+      "title": "Virtual Villa Management",
+      "price": "10–15%",
+      "priceNote": "Commission agreed per property",
+      "longTerm": [
+        "Sourcing and screening suitable long-term renters for homeowners",
+        "Managing all online communication with tenants throughout their stay",
+        "Coordinating lease inquiries, check-in details, and ongoing requests digitally",
+        "Acting as the point of contact so the owner doesn't have to be"
+      ],
+      "shortTerm": [
+        "Managing all Airbnb guest messaging — inquiries, confirmations, and check-ins",
+        "Booking coordination and calendar management across platforms",
+        "Remote coordination with on-site staff for cleaning and turnovers",
+        "Review responses and listing optimisation to keep ratings high"
+      ],
+      "model": "This service runs on a 10–15% commission agreed per property — separate from the VA retainer packages above. Low-risk for the client, results-aligned for you."
+    }
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "heading": "Questions I get asked",
+    "items": [
+      {
+        "q": "How quickly can we start?",
+        "a": "Usually within the same week. Once we've had a short call and you're happy with the proposal, I can typically start in 2–3 business days."
+      },
+      {
+        "q": "Do I need to sign a long-term contract?",
+        "a": "No. I work on monthly retainers with no lock-in. Most clients stay because the results speak for themselves — not because they have to."
+      },
+      {
+        "q": "How do we communicate day-to-day?",
+        "a": "However works best for you — WhatsApp, email, or a shared tool like Trello or Notion. I adapt to your workflow, not the other way around."
+      },
+      {
+        "q": "What if I need to pause or cancel?",
+        "a": "Just give me two weeks' notice. No awkward conversations, no penalties. Life changes — I understand that."
+      },
+      {
+        "q": "Is my information kept private?",
+        "a": "Absolutely. I treat client information with complete confidentiality and am happy to sign an NDA if required."
+      },
+      {
+        "q": "What time zone do you work in?",
+        "a": "I'm based in Bali (WIB, UTC+8) and typically available 9am–6pm. For time-sensitive villa or guest comms, I'm flexible with hours."
+      },
+      {
+        "q": "Can you handle things in Indonesian?",
+        "a": "Yes. I'm a native Indonesian speaker and can communicate with local vendors, staff, and suppliers on your behalf."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Final Call to Action",
+    "heading": "Ready to stop doing the small stuff yourself?",
+    "body": "Let's have a quick 15-minute chat. Tell me which tasks are eating your week — I'll tell you honestly whether I can take them, and what that would look like.",
+    "ctaText": "WhatsApp me now →",
+    "whatsapp": "https://wa.me/6285128014783",
+    "email": "elsapsbali@gmail.com"
+  },
+  "footer": {
+    "text": "Elsa & Co · Virtual Assistant in Bali"
+  }
+}

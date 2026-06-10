@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2E86C1"/>
+      <stop offset="1" stop-color="#1A5276"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <circle cx="400" cy="380" r="140" fill="rgba(255,255,255,0.9)"/>
+  <path d="M180 1000 C180 740 280 620 400 620 C520 620 620 740 620 1000 Z" fill="rgba(255,255,255,0.9)"/>
+  <text x="400" y="930" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="34" font-weight="700" fill="#1A5276">Foto Elsa di sini</text>
+</svg>
