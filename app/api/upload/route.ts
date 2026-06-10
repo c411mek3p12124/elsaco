@@ -14,7 +14,12 @@ export async function POST(req: Request) {
     if (!(file instanceof File)) {
       return NextResponse.json({ error: "No file" }, { status: 400 });
     }
-    const url = await saveUpload(file);
+    const gh = {
+      token: req.headers.get("x-github-token") || "",
+      repo: req.headers.get("x-github-repo") || "",
+      branch: req.headers.get("x-github-branch") || "",
+    };
+    const url = await saveUpload(file, gh);
     return NextResponse.json({ url });
   } catch (e) {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });

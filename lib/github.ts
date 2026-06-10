@@ -1,39 +1,46 @@
 // ─────────────────────────────────────────────────────────────
 // GitHub commit-on-save backend (git-based CMS, no database).
 //
-// When GITHUB_TOKEN + GITHUB_REPO are set, the admin editor commits
-// content.json and uploaded files directly to the repo via the
-// GitHub Contents API. Vercel then auto-redeploys, so the saved
-// changes become the "real code" and go live (~1 min).
-//
-// On localhost (env not set) the app falls back to the filesystem,
-// see lib/store.ts.
+// The token/repo can come EITHER from the admin UI (sent per-request,
+// stored only in the editor's browser — like the Keppra operator) OR
+// from server env (GITHUB_TOKEN / GITHUB_REPO / GITHUB_BRANCH).
+// On localhost with neither set, the app falls back to the filesystem
+// (see lib/store.ts).
 // ─────────────────────────────────────────────────────────────
 
-const TOKEN = process.env.GITHUB_TOKEN || "";
-const REPO = process.env.GITHUB_REPO || ""; // "owner/repo"
-const BRANCH = process.env.GITHUB_BRANCH || "main";
+export interface GhConfig {
+  token: string;
+  repo: string;   // "owner/repo"
+  branch: string;
+}
 
-export function githubEnabled(): boolean {
-  return !!(TOKEN && REPO);
+export function envConfig(): GhConfig {
+  return {
+    token: process.env.GITHUB_TOKEN || "",
+    repo: process.env.GITHUB_REPO || "",
+    branch: process.env.GITHUB_BRANCH || "main",
+  };
+}
+
+export function ghEnabled(cfg: GhConfig): boolean {
+  return !!(cfg.token && cfg.repo);
 }
 
 const API = "https://api.github.com";
 
-function headers() {
+function headers(cfg: GhConfig) {
   return {
-    Authorization: `Bearer ${TOKEN}`,
+    Authorization: `Bearer ${cfg.token}`,
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
     "User-Agent": "elsaco-editor",
   };
 }
 
-/** Get the current blob SHA of a file (needed to update it), or null. */
-async function getSha(path: string): Promise<string | null> {
+async function getSha(cfg: GhConfig, path: string): Promise<string | null> {
   const res = await fetch(
-    `${API}/repos/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`,
-    { headers: headers(), cache: "no-store" }
+    `${API}/repos/${cfg.repo}/contents/${encodeURIComponent(path)}?ref=${cfg.branch}`,
+    { headers: headers(cfg), cache: "no-store" }
   );
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`GitHub getSha ${res.status}`);
@@ -42,12 +49,12 @@ async function getSha(path: string): Promise<string | null> {
 }
 
 /** Create or update a file in the repo. contentBase64 = file bytes in base64. */
-export async function putFile(path: string, contentBase64: string, message: string): Promise<void> {
-  const sha = await getSha(path);
-  const res = await fetch(`${API}/repos/${REPO}/contents/${encodeURIComponent(path)}`, {
+export async function putFile(cfg: GhConfig, path: string, contentBase64: string, message: string): Promise<void> {
+  const sha = await getSha(cfg, path);
+  const res = await fetch(`${API}/repos/${cfg.repo}/contents/${encodeURIComponent(path)}`, {
     method: "PUT",
-    headers: { ...headers(), "Content-Type": "application/json" },
-    body: JSON.stringify({ message, content: contentBase64, branch: BRANCH, ...(sha ? { sha } : {}) }),
+    headers: { ...headers(cfg), "Content-Type": "application/json" },
+    body: JSON.stringify({ message, content: contentBase64, branch: cfg.branch, ...(sha ? { sha } : {}) }),
   });
   if (!res.ok) {
     const text = await res.text();
@@ -56,10 +63,10 @@ export async function putFile(path: string, contentBase64: string, message: stri
 }
 
 /** Read a text file from the repo (latest committed version). */
-export async function getFileText(path: string): Promise<string | null> {
+export async function getFileText(cfg: GhConfig, path: string): Promise<string | null> {
   const res = await fetch(
-    `${API}/repos/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`,
-    { headers: headers(), cache: "no-store" }
+    `${API}/repos/${cfg.repo}/contents/${encodeURIComponent(path)}?ref=${cfg.branch}`,
+    { headers: headers(cfg), cache: "no-store" }
   );
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`GitHub getFileText ${res.status}`);

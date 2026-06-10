@@ -18,6 +18,17 @@ export default function AdminPage() {
   const [activeKind, setActiveKind] = useState<"text" | null>(null);
   const [showTheme, setShowTheme] = useState(false);
   const [device, setDevice] = useState<null | "desktop" | "tablet" | "mobile">(null);
+  const [gh, setGh] = useState({ token: "", repo: "c411mek3p12124/elsaco", branch: "main" });
+  const [showGh, setShowGh] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("elsaco.gh");
+      if (raw) setGh((g) => ({ ...g, ...JSON.parse(raw) }));
+    } catch {}
+  }, []);
+  const saveGh = (next: typeof gh) => { setGh(next); try { localStorage.setItem("elsaco.gh", JSON.stringify(next)); } catch {} };
+  const ghHeaders = () => ({ "x-github-token": gh.token, "x-github-repo": gh.repo, "x-github-branch": gh.branch });
 
   useEffect(() => {
     fetch("/api/content")
@@ -75,7 +86,7 @@ export default function AdminPage() {
       fd.append("file", file);
       const res = await fetch("/api/upload", {
         method: "POST",
-        headers: { "x-admin-password": password },
+        headers: { "x-admin-password": password, ...ghHeaders() },
         body: fd,
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "upload error");
@@ -85,11 +96,10 @@ export default function AdminPage() {
   );
 
   const tryLogin = async () => {
-    if (!content) return;
+    // Verify the password only — no save (works even before GitHub is set).
     const res = await fetch("/api/content", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-admin-password": password },
-      body: JSON.stringify(content),
+      headers: { "x-admin-password": password, "x-admin-check": "1" },
     });
     if (res.ok) {
       setAuthed(true);
@@ -104,17 +114,17 @@ export default function AdminPage() {
     setStatus("Menyimpan…");
     const res = await fetch("/api/content", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-admin-password": password },
+      headers: { "Content-Type": "application/json", "x-admin-password": password, ...ghHeaders() },
       body: JSON.stringify(content),
     });
     if (res.ok) {
       const data = await res.json().catch(() => ({}));
       setStatus(
         data.mode === "github"
-          ? "✓ Tersimpan & di-commit. Situs ter-update ±1 menit (redeploy)."
-          : "✓ Tersimpan! Perubahan langsung tampil di situs."
+          ? "✓ Tersimpan & di-commit ke GitHub. Situs ter-update ±1 menit."
+          : "✓ Tersimpan ke file lokal. (Untuk online, isi GitHub token di 🔗 GitHub.)"
       );
-      setTimeout(() => setStatus(""), 6000);
+      setTimeout(() => setStatus(""), 7000);
     } else {
       const err = await res.json().catch(() => ({}));
       setStatus("Gagal menyimpan: " + (err.error || res.status));
@@ -165,6 +175,19 @@ export default function AdminPage() {
       {editing && <FormatBar />}
       {showTheme && <ThemePanel theme={content.theme ?? defaultTheme} onChange={setThemeColor} onClose={() => setShowTheme(false)} />}
       {device && <DevicePreview content={content} initial={device} onClose={() => setDevice(null)} />}
+      {showGh && (
+        <div className="thm-overlay" onClick={() => setShowGh(false)}>
+          <div className="thm-card" onClick={(e) => e.stopPropagation()}>
+            <h3>Koneksi GitHub</h3>
+            <p className="thm-sub">Agar tombol Simpan bisa commit ke repo &amp; tampil online. Token disimpan hanya di browser ini — tidak dikirim ke mana pun selain GitHub.</p>
+            <label className="gh-field"><span>Repo (owner/repo)</span><input className="gh-input" value={gh.repo} onChange={(e) => saveGh({ ...gh, repo: e.target.value })} placeholder="c411mek3p12124/elsaco" /></label>
+            <label className="gh-field"><span>Branch</span><input className="gh-input" value={gh.branch} onChange={(e) => saveGh({ ...gh, branch: e.target.value })} placeholder="main" /></label>
+            <label className="gh-field"><span>Token (Contents: Read &amp; Write)</span><input className="gh-input" type="password" value={gh.token} onChange={(e) => saveGh({ ...gh, token: e.target.value })} placeholder="github_pat_…" /></label>
+            <p className="gh-hint">Buat token: GitHub → Settings → Developer settings → Fine-grained tokens → repo <b>elsaco</b> → Contents: Read &amp; write.</p>
+            <button className="thm-done" onClick={() => setShowGh(false)}>Selesai</button>
+          </div>
+        </div>
+      )}
       {/* Toolbar */}
       <div className="adm-toolbar">
         <div className="adm-toolbar-left">
@@ -184,6 +207,7 @@ export default function AdminPage() {
             </button>
           </div>
           <div className="adm-tools">
+            <button className="adm-tool" onClick={() => setShowGh(true)} title="Koneksi GitHub (simpan online)">🔗 GitHub</button>
             <button className="adm-tool" onClick={() => setShowTheme(true)} title="Warna & tema">🎨 Warna</button>
             <span className="adm-tool-sep" />
             <span className="adm-tool-label">Pratinjau:</span>
@@ -282,6 +306,11 @@ function FormatBarStyles() {
       .thm-val code{font-size:11px;color:#8899a6}
       .thm-val input[type=color]{width:30px;height:30px;border:none;background:none;cursor:pointer;border-radius:6px}
       .thm-done{margin-top:18px;width:100%;padding:11px;border-radius:10px;background:#2e86c1;border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+      .gh-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+      .gh-field>span{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#8899a6}
+      .gh-input{width:100%;padding:10px 12px;border-radius:9px;background:#0f1419;border:1px solid rgba(255,255,255,.14);color:#e8ecf0;font-size:13px;outline:none;font-family:inherit}
+      .gh-input:focus{border-color:#2e86c1}
+      .gh-hint{font-size:11.5px;color:#7f8c9a;line-height:1.5;margin-top:2px}
     `}</style>
   );
 }
