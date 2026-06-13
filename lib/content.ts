@@ -125,6 +125,9 @@ export interface SiteContent {
     ctaText: string;
     whatsapp: string;
     email: string;
+    whatsappNumber?: string;   // digits only, e.g. 6285128014783 — builds the wa.me link
+    whatsappMessage?: string;  // pre-filled chat template the visitor can send right away
+    emailSubject?: string;     // optional pre-filled email subject
   };
   footer: { text: string };
   // Editor visual layer (optional → backward compatible)
@@ -430,6 +433,9 @@ export const defaultContent: SiteContent = {
     ctaText: "WhatsApp me now →",
     whatsapp: "https://wa.me/6285128014783",
     email: "elsapsbali@gmail.com",
+    whatsappNumber: "6285128014783",
+    whatsappMessage: "Hi Elsa! I'd like to know more about your virtual assistant services.",
+    emailSubject: "Virtual assistant enquiry",
   },
   footer: {
     text: "Elsa & Co · Virtual Assistant in Bali",
