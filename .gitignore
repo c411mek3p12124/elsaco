@@ -7,3 +7,6 @@ out
 .vercel
 dev.log
 public/sequences.json
+
+# local source videos (not deployed)
+Sequens/
