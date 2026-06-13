@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 import type { SiteContent } from "@/lib/content";
+import { useTheme } from "./ThemeProvider";
 
 export default function HeroSequence({
   hero,
@@ -12,12 +13,14 @@ export default function HeroSequence({
   onProgress: (n: number) => void;
   onDone: () => void;
 }) {
+  const { theme } = useTheme();
   const box = useRef<HTMLDivElement>(null);
   const cvs = useRef<HTMLCanvasElement>(null);
   const imgs = useRef<HTMLImageElement[]>([]);
   const frames = useRef<string[]>([]); // auto-detected frame URLs (no count limit)
   const fr = useRef(0);
   const raf = useRef<number | null>(null);
+  const firstLoad = useRef(true);
   const [ready, setReady] = useState(false);
 
   const { scrollYProgress } = useScroll({ target: box, offset: ["start start", "end end"] });
@@ -31,27 +34,37 @@ export default function HeroSequence({
 
   useEffect(() => {
     let alive = true;
+    // Do NOT blank the canvas on theme change — keep the current frame showing while the
+    // new theme's frames load, then swap as soon as the visible frame is ready (instant).
     fetch("/sequences.json").then((r) => (r.ok ? r.json() : {})).then((man: any) => {
       if (!alive) return;
-      const list: string[] = (man && man["sequence"]) || [];
-      frames.current = list;
-      if (!list.length) { onProgress(100); onDone(); return; }
-      const arr: HTMLImageElement[] = new Array(list.length);
-      let n = 0;
-      list.forEach((src, i) => {
+      // theme-aware: pick the active theme's frames; fall back to whichever exists.
+      const flist: string[] = (man && (man[theme]?.length ? man[theme] : (man.light || man.dark || man.sequence))) || [];
+      frames.current = flist;
+      if (!flist.length) { onProgress(100); if (firstLoad.current) { firstLoad.current = false; onDone(); } return; }
+      const arr: HTMLImageElement[] = new Array(flist.length);
+      let n = 0; let swapped = false;
+      const curIdx = Math.min(flist.length - 1, fr.current);
+      // Load the currently-visible frame FIRST so the preloader dismisses (and theme swaps) instantly.
+      const order = [curIdx, ...flist.map((_, i) => i).filter((i) => i !== curIdx)];
+      order.forEach((i) => {
         const img = new Image();
-        img.src = src;
         img.onload = img.onerror = () => {
-          n++;
-          onProgress((n / list.length) * 100);
-          if (n === list.length) { imgs.current = arr; setReady(true); onDone(); draw(0); }
+          if (!alive) return;
+          n++; if (!swapped) onProgress((n / flist.length) * 100);
+          if (!swapped && i === curIdx) {
+            swapped = true; imgs.current = arr; setReady(true); draw(curIdx);
+            if (firstLoad.current) { firstLoad.current = false; onProgress(100); onDone(); }
+          }
+          if (n === flist.length) { imgs.current = arr; setReady(true); draw(Math.min(arr.length - 1, fr.current)); }
         };
+        img.src = flist[i];
         arr[i] = img;
       });
-    }).catch(() => { onProgress(100); onDone(); });
+    }).catch(() => { onProgress(100); if (firstLoad.current) { firstLoad.current = false; onDone(); } });
     return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [theme]);
 
   const draw = useCallback((fi: number) => {
     const c = cvs.current,
@@ -101,7 +114,8 @@ export default function HeroSequence({
   return (
     <div ref={box} className="relative h-[360vh]">
       <div className="seq-sticky">
-        <canvas ref={cvs} className="w-full h-full" style={{ background: "var(--canvas-bg)" }} />
+        {/* semi-monochrome: gentle desaturation over the sequence (not too strong) */}
+        <canvas ref={cvs} className="w-full h-full" style={{ background: "var(--canvas-bg)", filter: "saturate(0.7)" }} />
         {/* subtle readability scrim */}
         <div
           className="absolute inset-0 pointer-events-none"
