@@ -84,7 +84,7 @@ export interface SiteContent {
   testimonials: {
     eyebrow: string;
     heading: string;
-    items: { quote: string; author: string }[];
+    items: { quote: string; author: string; rating?: number; image?: Media }[];
   };
   process: {
     eyebrow: string;
@@ -293,11 +293,15 @@ export const defaultContent: SiteContent = {
         quote:
           "Elsa handles our guest messages and booking follow-ups. Tasks that used to interrupt my whole day just... disappear. Our response times improved and I finally have headspace for the things only I can do.",
         author: "Client First Name, Owner of Villa Name, Seminyak",
+        rating: 5,
+        image: { type: "image", url: "" },
       },
       {
         quote:
           "I kept putting off the small admin tasks because I wanted to focus on growing. They piled up. Elsa cleared the backlog in two days and now keeps it clean every week. Game changer.",
         author: "Client First Name, Business Type, Canggu",
+        rating: 5,
+        image: { type: "image", url: "" },
       },
     ],
   },
