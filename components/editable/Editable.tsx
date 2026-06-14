@@ -25,12 +25,15 @@ export function T({
   const { editing, setPath, getStyle, select, activePath } = useEdit();
   const Tag: ElementType = as || "span";
   const merged = { ...(style || {}), ...(getStyle(p) || {}) };
-  if (!editing) return <Tag className={className} style={merged}>{children}</Tag>;
+  // text-align only works on a block box, but T is an inline span by default —
+  // so when an alignment is set, make it a full-width block so L/C/R/justify apply.
+  const applied = merged.textAlign ? { display: "block", width: "100%", ...merged } : merged;
+  if (!editing) return <Tag className={className} style={applied}>{children}</Tag>;
   const active = activePath === p;
   return (
     <Tag
       className={`ed-editable ${active ? "ed-active" : ""} ${className}`}
-      style={merged}
+      style={applied}
       contentEditable
       suppressContentEditableWarning
       spellCheck={false}

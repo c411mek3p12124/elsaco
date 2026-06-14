@@ -474,25 +474,27 @@ h1, h2, h3, h4, .font-heading {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #e74c3c;
-  color: #fff;
-  border: 2px solid var(--bg);
-  font-size: 12px;
-  font-weight: 700;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.28);
+  color: #ef4444;
+  font-size: 13px;
+  line-height: 1;
   cursor: pointer;
   z-index: 5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
 }
 .ed-del:hover {
-  filter: brightness(1.1);
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
 }
 .ed-del-float {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -10px;
+  right: -10px;
 }
 .ed-add {
   display: inline-flex;

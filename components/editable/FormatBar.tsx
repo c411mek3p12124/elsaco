@@ -38,7 +38,7 @@ export default function FormatBar() {
       <button className={`fmt-btn ${isUnderline ? "on" : ""}`} onClick={() => setStyle(p, { textDecoration: isUnderline ? "" : "underline" })} title="Underline"><u>U</u></button>
       <span className="fmt-sep" />
       {(["left", "center", "right", "justify"] as const).map((a) => (
-        <button key={a} className={`fmt-btn ${st.textAlign === a ? "on" : ""}`} onClick={() => setStyle(p, { textAlign: a })} title={`Align ${a}`}>
+        <button key={a} className={`fmt-btn ${st.textAlign === a ? "on" : ""}`} onClick={() => setStyle(p, { textAlign: st.textAlign === a ? "" : a })} title={st.textAlign === a ? "Reset to neutral" : `Align ${a}`}>
           {a === "left" && <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 6h18M3 12h12M3 18h15" /></svg>}
           {a === "center" && <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 6h18M6 12h12M4 18h16" /></svg>}
           {a === "right" && <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 6h18M9 12h12M6 18h15" /></svg>}
