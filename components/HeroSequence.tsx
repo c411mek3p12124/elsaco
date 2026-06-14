@@ -80,15 +80,10 @@ export default function HeroSequence({
     const ir = img.naturalWidth / img.naturalHeight,
       cr = r.width / r.height;
     let dw: number, dh: number, ox: number, oy: number;
-    if (r.width < 768) {
-      // mobile: "contain" — show the whole frame (no heavy crop / over-zoom on phones)
-      if (ir > cr) { dw = r.width; dh = dw / ir; ox = 0; oy = (r.height - dh) / 2; }
-      else { dh = r.height; dw = dh * ir; ox = (r.width - dw) / 2; oy = 0; }
-    } else {
-      // desktop: "cover" — fill the screen
-      if (ir > cr) { dh = r.height; dw = dh * ir; ox = (r.width - dw) / 2; oy = 0; }
-      else { dw = r.width; dh = dw / ir; ox = 0; oy = (r.height - dh) / 2; }
-    }
+    // "cover" — fill the area. On mobile the sticky area starts below the header (see CSS),
+    // so the frame fills from the header line down without going under the header.
+    if (ir > cr) { dh = r.height; dw = dh * ir; ox = (r.width - dw) / 2; oy = 0; }
+    else { dw = r.width; dh = dw / ir; ox = 0; oy = (r.height - dh) / 2; }
     ctx.drawImage(img, ox, oy, dw, dh);
   }, []);
 
@@ -162,7 +157,7 @@ export default function HeroSequence({
             </a>
           </div>
           <motion.div
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+            className="absolute bottom-10 inset-x-0 flex flex-col items-center text-center gap-2"
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.8, repeat: Infinity }}
           >

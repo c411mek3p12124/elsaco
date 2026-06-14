@@ -199,6 +199,15 @@ h1, h2, h3, h4, .font-heading {
   justify-content: center;
 }
 
+/* On mobile the sequence starts at the bottom of the fixed header (not under it),
+   and still fills (cover) the rest of the screen. */
+@media (max-width: 767px) {
+  .seq-sticky {
+    top: var(--header-h, 58px);
+    height: calc(100svh - var(--header-h, 58px));
+  }
+}
+
 /* ═══ BUTTONS ═══ */
 .btn-primary {
   display: inline-flex;
