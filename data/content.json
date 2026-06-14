@@ -3,15 +3,15 @@
     "name": "Elsa & Co",
     "tagline": "I do the small things well, so you can do the big things great.",
     "logo": {
-      "mode": "none",
+      "mode": "text",
       "image": "",
       "text": "Elsa & Co",
-      "size": 19
+      "size": 18
     }
   },
   "hero": {
     "eyebrow": "Bali-based Virtual Assistant",
-    "headline": "The small tasks that steal your day  I've got those.",
+    "headline": "The small tasks that steal your day — I've got those.",
     "subheadline": "I help busy entrepreneurs and villa owners in Bali move faster on what matters most. You've got big things to focus on. I take care of the small tasks that keep getting in the way — quickly, reliably, and without any fuss. No long contracts, no complicated setup. Just tell me what's slowing you down, and I'll handle it.",
     "stats": [
       {
@@ -173,7 +173,7 @@
       },
       {
         "label": "Commitment",
-        "elsa": "Flexible  pause anytime",
+        "elsa": "Flexible — pause anytime",
         "hire": "Fixed contract"
       },
       {
