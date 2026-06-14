@@ -102,6 +102,13 @@ export interface SiteContent {
       features: string[];
       perfect: string;
       popular: boolean;
+      // Per-card button: WhatsApp (number + template) or Email (address + subject).
+      ctaText?: string;
+      ctaType?: "whatsapp" | "email";
+      whatsappNumber?: string;
+      whatsappMessage?: string;
+      email?: string;
+      emailSubject?: string;
     }[];
     specialist: {
       badge: string;

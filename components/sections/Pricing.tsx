@@ -1,7 +1,73 @@
 "use client";
+import type { CSSProperties } from "react";
 import type { SiteContent } from "@/lib/content";
 import { Reveal } from "../ui";
 import { T, AddBtn, DeleteBtn } from "../editable/Editable";
+import { useEdit } from "../editable/EditContext";
+
+type Pkg = SiteContent["pricing"]["packages"][number];
+
+/** Build the card button link: WhatsApp (number + template) or Email (address + subject). */
+function ctaHref(p: Pkg): string {
+  if (p.ctaType === "email" && p.email)
+    return `mailto:${p.email}${p.emailSubject ? `?subject=${encodeURIComponent(p.emailSubject)}` : ""}`;
+  const num = (p.whatsappNumber || "").replace(/[^0-9]/g, "");
+  if (num) return `https://wa.me/${num}${p.whatsappMessage ? `?text=${encodeURIComponent(p.whatsappMessage)}` : ""}`;
+  return "#contact"; // not configured yet → scroll to the contact section
+}
+
+function PkgField({ label, p, value, hint }: { label: string; p: string; value?: string; hint?: string }) {
+  return (
+    <label className="grid gap-1">
+      <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>{label}</span>
+      <T p={p} className="block px-2.5 py-1.5 rounded-lg text-[13px]" style={{ background: "var(--bg)", border: "1px solid var(--border)", color: "var(--text)" }}>{value || ""}</T>
+      {hint && <span className="text-[10px]" style={{ color: "var(--text-muted)" }}>{hint}</span>}
+    </label>
+  );
+}
+
+function PkgCta({ p, i }: { p: Pkg; i: number }) {
+  const { editing, setPath } = useEdit();
+  const isEmail = p.ctaType === "email";
+  const modeBtn = (active: boolean): CSSProperties => ({
+    padding: "4px 10px", borderRadius: 8, fontSize: 11, fontWeight: 600, cursor: "pointer",
+    background: active ? "var(--primary)" : "transparent", color: active ? "#fff" : "var(--text-muted)",
+    border: `1px solid ${active ? "var(--primary)" : "var(--border)"}`,
+  });
+  return (
+    <>
+      <a
+        href={ctaHref(p)}
+        target={isEmail ? undefined : "_blank"}
+        rel="noopener noreferrer"
+        className={p.popular ? "btn-primary w-full" : "btn-outline w-full"}
+        onClick={(e) => { if (editing) e.preventDefault(); }}
+      >
+        <T p={`pricing.packages.${i}.ctaText`}>{p.ctaText || `Choose ${p.name}`}</T>
+      </a>
+      {editing && (
+        <div className="mt-3 grid gap-2 text-left p-3 rounded-xl" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
+          <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: "var(--primary)" }}>Button target</span>
+          <div className="flex gap-2">
+            <button type="button" style={modeBtn(!isEmail)} onClick={() => setPath(`pricing.packages.${i}.ctaType`, "whatsapp")}>WhatsApp</button>
+            <button type="button" style={modeBtn(isEmail)} onClick={() => setPath(`pricing.packages.${i}.ctaType`, "email")}>Email</button>
+          </div>
+          {isEmail ? (
+            <>
+              <PkgField label="Email address" p={`pricing.packages.${i}.email`} value={p.email} />
+              <PkgField label="Subject (optional)" p={`pricing.packages.${i}.emailSubject`} value={p.emailSubject} />
+            </>
+          ) : (
+            <>
+              <PkgField label="WhatsApp number" p={`pricing.packages.${i}.whatsappNumber`} value={p.whatsappNumber} hint="Digits + country code, e.g. 6285128014783" />
+              <PkgField label="Template message" p={`pricing.packages.${i}.whatsappMessage`} value={p.whatsappMessage} />
+            </>
+          )}
+        </div>
+      )}
+    </>
+  );
+}
 
 export default function Pricing({ data }: { data: SiteContent["pricing"] }) {
   return (
@@ -71,9 +137,7 @@ export default function Pricing({ data }: { data: SiteContent["pricing"] }) {
                 <p className="text-xs mb-6" style={{ color: "var(--text-muted)" }}>
                   <T p={`pricing.packages.${i}.perfect`}>{p.perfect}</T>
                 </p>
-                <a href="#contact" className={p.popular ? "btn-primary w-full" : "btn-outline w-full"}>
-                  Choose {p.name}
-                </a>
+                <PkgCta p={p} i={i} />
               </div>
             </Reveal>
           ))}
