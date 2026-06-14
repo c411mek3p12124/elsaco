@@ -15,13 +15,14 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const saved = (localStorage.getItem("elsa-theme") as Theme) || "light";
+    // key bumped to v2 so any stale "dark" preference resets to the light default
+    const saved = (localStorage.getItem("elsa-theme-v2") as Theme) || "light";
     setTheme(saved);
   }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("elsa-theme", theme);
+    localStorage.setItem("elsa-theme-v2", theme);
   }, [theme]);
 
   const toggle = () => setTheme((t) => (t === "dark" ? "light" : "dark"));

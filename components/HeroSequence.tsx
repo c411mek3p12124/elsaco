@@ -80,16 +80,14 @@ export default function HeroSequence({
     const ir = img.naturalWidth / img.naturalHeight,
       cr = r.width / r.height;
     let dw: number, dh: number, ox: number, oy: number;
-    if (ir > cr) {
-      dh = r.height;
-      dw = dh * ir;
-      ox = (r.width - dw) / 2;
-      oy = 0;
+    if (r.width < 768) {
+      // mobile: "contain" — show the whole frame (no heavy crop / over-zoom on phones)
+      if (ir > cr) { dw = r.width; dh = dw / ir; ox = 0; oy = (r.height - dh) / 2; }
+      else { dh = r.height; dw = dh * ir; ox = (r.width - dw) / 2; oy = 0; }
     } else {
-      dw = r.width;
-      dh = dw / ir;
-      ox = 0;
-      oy = (r.height - dh) / 2;
+      // desktop: "cover" — fill the screen
+      if (ir > cr) { dh = r.height; dw = dh * ir; ox = (r.width - dw) / 2; oy = 0; }
+      else { dw = r.width; dh = dw / ir; ox = 0; oy = (r.height - dh) / 2; }
     }
     ctx.drawImage(img, ox, oy, dw, dh);
   }, []);
