@@ -1,11 +1,17 @@
 {
   "brand": {
     "name": "Elsa & Co",
-    "tagline": "I do the small things well, so you can do the big things great."
+    "tagline": "I do the small things well, so you can do the big things great.",
+    "logo": {
+      "mode": "none",
+      "image": "",
+      "text": "Elsa & Co",
+      "size": 19
+    }
   },
   "hero": {
     "eyebrow": "Bali-based Virtual Assistant",
-    "headline": "The small tasks that steal your day — I've got those.",
+    "headline": "The small tasks that steal your day  I've got those.",
     "subheadline": "I help busy entrepreneurs and villa owners in Bali move faster on what matters most. You've got big things to focus on. I take care of the small tasks that keep getting in the way — quickly, reliably, and without any fuss. No long contracts, no complicated setup. Just tell me what's slowing you down, and I'll handle it.",
     "stats": [
       {
@@ -21,9 +27,9 @@
         "label": "Every message gets a same-day reply during working hours, 10am – 5pm WIB, Mon–Fri."
       }
     ],
-    "ctaPrimaryText": "Let's talk — WhatsApp me",
+    "ctaPrimaryText": "Let's talk  WhatsApp me",
     "ctaPrimaryHref": "https://wa.me/6285128014783",
-    "ctaSecondaryText": "See what I can do →",
+    "ctaSecondaryText": "See what I can do ",
     "ctaSecondaryHref": "#services"
   },
   "about": {
@@ -167,7 +173,7 @@
       },
       {
         "label": "Commitment",
-        "elsa": "Flexible — pause anytime",
+        "elsa": "Flexible  pause anytime",
         "hire": "Fixed contract"
       },
       {
@@ -319,9 +325,23 @@
     "body": "Let's have a quick 15-minute chat. Tell me which tasks are eating your week — I'll tell you honestly whether I can take them, and what that would look like.",
     "ctaText": "WhatsApp me now →",
     "whatsapp": "https://wa.me/6285128014783",
-    "email": "elsapsbali@gmail.com"
+    "email": "elsapsbali@gmail.com",
+    "whatsappNumber": "6285128014783",
+    "whatsappMessage": "Hi Elsa! I'd like to know more about your virtual assistant services.",
+    "emailSubject": "Virtual assistant enquiry"
   },
   "footer": {
     "text": "Elsa & Co · Virtual Assistant in Bali"
+  },
+  "styles": {},
+  "theme": {
+    "primaryLight": "#1a5276",
+    "bgLight": "#f7f9fb",
+    "primaryDark": "#2e86c1",
+    "bgDark": "#0f1419"
+  },
+  "buttonStyle": {
+    "radius": 999,
+    "size": "md"
   }
 }
